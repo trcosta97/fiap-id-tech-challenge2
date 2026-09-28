@@ -1,0 +1,102 @@
+{
+  "config": {
+    "pop_size": 20,
+    "n_generations": 30,
+    "crossover_rate": 0.8,
+    "mutation_rate": 0.3,
+    "tournament_size": 3,
+    "elite_size": 2,
+    "seed": 42,
+    "experiment_name": "exp2_alta_mutacao"
+  },
+  "best": {
+    "fitness": 0.4159595062596681,
+    "genes": {
+      "C": 0.1,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 500,
+      "tol": 0.001
+    }
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.41488,
+      "mean_fitness": 0.352598,
+      "worst_fitness": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.41488,
+      "mean_fitness": 0.404448,
+      "worst_fitness": 0.352482
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.41488,
+      "mean_fitness": 0.411624,
+      "worst_fitness": 0.405292
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.395051,
+      "worst_fitness": 0.052901
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.41069,
+      "worst_fitness": 0.352482
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.413781,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.413835,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.412184,
+      "worst_fitness": 0.371487
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.413455,
+      "worst_fitness": 0.405074
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.413814,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 11,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.410853,
+      "worst_fitness": 0.352482
+    },
+    {
+      "generation": 12,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.414255,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 13,
+      "best_fitness": 0.41596,
+      "mean_fitness": 0.394583,
+      "worst_fitness": 0.052901
+    }
+  ]
+}

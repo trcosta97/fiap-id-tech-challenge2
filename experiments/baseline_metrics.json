@@ -1,0 +1,32 @@
+[
+  {
+    "model": "Regressão Logística",
+    "accuracy": 0.7006,
+    "precision_dead": 0.2765,
+    "recall_dead": 0.5935,
+    "f1_dead": 0.3773,
+    "roc_auc": 0.7185,
+    "cv_f1_mean": 0.4108,
+    "cv_f1_std": 0.0175
+  },
+  {
+    "model": "Random Forest",
+    "accuracy": 0.8261,
+    "precision_dead": 0.3836,
+    "recall_dead": 0.2276,
+    "f1_dead": 0.2857,
+    "roc_auc": 0.6966,
+    "cv_f1_mean": 0.3319,
+    "cv_f1_std": 0.0286
+  },
+  {
+    "model": "XGBoost",
+    "accuracy": 0.7789,
+    "precision_dead": 0.3154,
+    "recall_dead": 0.3821,
+    "f1_dead": 0.3456,
+    "roc_auc": 0.6821,
+    "cv_f1_mean": 0.3358,
+    "cv_f1_std": 0.0264
+  }
+]

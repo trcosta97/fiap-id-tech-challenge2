@@ -12,7 +12,7 @@ DADOS_EXEMPLO = {
     "Age": 55,
     "Race": "White",
     "Marital Status": "Married",
-    "T Stage": "T2",
+    "T Stage ": "T2",
     "N Stage": "N1",
     "6th Stage": "IIA",
     "differentiate": "Moderately differentiated",

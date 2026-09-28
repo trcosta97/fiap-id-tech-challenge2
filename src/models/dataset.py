@@ -34,7 +34,7 @@ NUMERIC_COLS: list[str] = [
 CATEGORICAL_COLS: list[str] = [
     "Race",
     "Marital Status",
-    "T Stage",
+    "T Stage ",   # nota: o CSV tem espaço trailing nesta coluna
     "N Stage",
     "6th Stage",
     "differentiate",

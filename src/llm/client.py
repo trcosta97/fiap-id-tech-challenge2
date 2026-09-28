@@ -55,7 +55,7 @@ def _format_dados_paciente(dados: dict) -> str:
         "Age": "Idade",
         "Race": "Raça/Etnia",
         "Marital Status": "Estado Civil",
-        "T Stage": "T Stage (tumor primário)",
+        "T Stage ": "T Stage (tumor primário)",
         "N Stage": "N Stage (linfonodos)",
         "6th Stage": "Estadiamento (6ª ed.)",
         "differentiate": "Diferenciação celular",

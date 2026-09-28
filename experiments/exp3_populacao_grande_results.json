@@ -1,0 +1,84 @@
+{
+  "config": {
+    "pop_size": 40,
+    "n_generations": 30,
+    "crossover_rate": 0.8,
+    "mutation_rate": 0.1,
+    "tournament_size": 5,
+    "elite_size": 4,
+    "seed": 42,
+    "experiment_name": "exp3_populacao_grande"
+  },
+  "best": {
+    "fitness": 0.4156328115851041,
+    "genes": {
+      "C": 0.1,
+      "penalty": "l1",
+      "solver": "saga",
+      "max_iter": 500,
+      "tol": 0.0001
+    }
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.379422,
+      "worst_fitness": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.399805,
+      "worst_fitness": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.411457,
+      "worst_fitness": 0.352482
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.414917,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.415323,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.412322,
+      "worst_fitness": 0.352482
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.406136,
+      "worst_fitness": 0.052901
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.414947,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.414764,
+      "worst_fitness": 0.410803
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.415633,
+      "mean_fitness": 0.415139,
+      "worst_fitness": 0.412168
+    }
+  ]
+}
