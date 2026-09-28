@@ -1,0 +1,86 @@
+# =============================================================================
+# .gitignore – Tech Challenge Fase 2
+# =============================================================================
+
+# --- Instruções do projeto (não commitar) ---
+tech_challenge_fase2_kiro.md
+
+# --- Variáveis de ambiente e segredos ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Ambientes virtuais ---
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+.poetry/
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- Pytest / Coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+
+# --- IDEs ---
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Windows ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Modelos e dados pesados (adicionar se necessário) ---
+# *.pkl
+# *.h5
+# *.pt
+# data/raw/
