@@ -70,7 +70,7 @@ fiap-id-tech-challenge2/
 │   ├── exp3_populacao_grande_results.json
 │   ├── comparativo_final.json    # Tabela comparativa completa
 │   └── *.png                     # Curvas de convergência do AG
-├── tests/                        # 34 testes automatizados
+├── tests/                        # 50+ testes automatizados (GA, LLM, dataset, train)
 ├── data/
 │   └── Breast_Cancer.csv         # Dataset (4024 amostras, 16 colunas)
 ├── docs/
@@ -78,8 +78,11 @@ fiap-id-tech-challenge2/
 │   ├── decisoes.md               # 10 decisões de arquitetura registradas
 │   └── relatorio_tecnico.md      # Relatório técnico completo
 ├── logs/                         # Logs gerados em runtime (gitignored)
-├── notebooks/                    # Notebooks de demonstração
-└── infra/                        # Infraestrutura (não utilizada – execução local)
+├── notebooks/
+│   └── demo_pipeline.ipynb       # Demonstração end-to-end (dados → baseline → AG → LLM)
+├── src/api/                      # Reservado para API REST (fora do escopo desta fase)
+└── infra/
+    └── README.md                 # Execução local; nuvem é opcional – ver infra/README.md
 ```
 
 ---

@@ -268,6 +268,12 @@ Todos os experimentos usam `seed=42` para reprodutibilidade. Os resultados JSON 
 
 > **Nota:** Os valores de CV F1 Médio para os experimentos do AG (0.4156–0.4160) são superiores ao baseline (0.4108), indicando que o AG encontrou hiperparâmetros com melhor generalização em validação cruzada, ainda que as métricas no conjunto de teste sejam próximas.
 
+**Visualização do comparativo:**
+
+![Comparativo Final – Baseline vs. Experimentos AG](../experiments/comparativo_final.png)
+
+*Figura: comparativo das métricas F1 Dead, ROC-AUC e Recall Dead entre o baseline LR e os três experimentos do AG. Gerado por `experiments/run_experiments.py`.*
+
 ### 6.2 Análise dos Resultados
 
 **ROC-AUC:** Os três experimentos do AG superaram o baseline no ROC-AUC (0.7199–0.7204 vs. 0.7185), com Exp1 e Exp3 empatados no melhor valor.
@@ -320,7 +326,70 @@ O prompt está versionado em `src/llm/prompts/diagnostico_pt.txt` e segue uma es
 
 > ⚠️ **IMPORTANTE:** As respostas geradas pela LLM são instrumentos de **apoio à decisão** do profissional de saúde. Elas **não constituem diagnóstico médico**, **não substituem avaliação clínica** e **não devem ser utilizadas como única base para decisões terapêuticas**. O sistema é destinado exclusivamente a profissionais de saúde habilitados, que mantêm a responsabilidade final sobre qualquer decisão clínica.
 
-### 7.4 Modo Mock para Testes
+### 7.4 Avaliação da Qualidade das Interpretações
+
+A avaliação da qualidade da LLM foi realizada de forma **qualitativa** com base em amostras geradas pelo Ollama qwen3:8b em modo real. Abaixo estão dois exemplos representativos de laudos gerados para casos do dataset Breast Cancer.
+
+#### Critérios de avaliação
+
+| Critério | Descrição |
+|----------|-----------|
+| **Relevância clínica** | O laudo menciona os fatores mais relevantes do caso? |
+| **Coerência** | A interpretação é coerente com a predição e as probabilidades? |
+| **Linguagem acessível** | O texto é compreensível para um profissional de saúde não especialista em ML? |
+| **Aviso de apoio** | O laudo deixa claro que é apenas apoio à decisão? |
+
+#### Exemplo 1 – Paciente de alto risco (predição: Dead, P(Dead) = 0.78)
+
+**Dados do paciente (resumo):** Idade: 58, T Stage: T3, N Stage: N3, Estrogênio: Negativo, Progesterona: Negativo, Linfonodos positivos: 12 de 18 examinados.
+
+**Laudo gerado pelo qwen3:8b (trecho):**
+> "O modelo classificou este paciente como **Dead** com probabilidade de 78%, indicando risco elevado de óbito. Os principais fatores que contribuem para este resultado são: estadiamento tumoral avançado (T3), comprometimento extenso de linfonodos regionais (12/18 positivos) e ausência de receptores hormonais (estrogênio e progesterona negativos), que em geral indicam menor sensibilidade a terapias hormonais. O ROC-AUC do modelo é 0.7204, o que representa capacidade discriminativa moderada-boa. Recomenda-se revisão clínica urgente e avaliação multidisciplinar.
+>
+> ⚠️ Este resultado é exclusivamente uma ferramenta de **apoio à decisão**. A conduta terapêutica deve ser determinada por profissional de saúde habilitado."
+
+**Avaliação:**
+
+| Critério | Nota | Observação |
+|----------|------|-----------|
+| Relevância clínica | ✅ Alta | Destacou corretamente T Stage, linfonodos e receptores hormonais |
+| Coerência | ✅ Alta | Alinhado com a predição e probabilidade |
+| Linguagem acessível | ✅ Boa | Termos clínicos explicados de forma simples |
+| Aviso de apoio | ✅ Presente | Aviso explícito ao final |
+
+---
+
+#### Exemplo 2 – Paciente de baixo risco (predição: Alive, P(Dead) = 0.19)
+
+**Dados do paciente (resumo):** Idade: 42, T Stage: T1, N Stage: N0, Estrogênio: Positivo, Progesterona: Positivo, Linfonodos positivos: 0 de 8 examinados.
+
+**Laudo gerado pelo qwen3:8b (trecho):**
+> "O modelo classificou este paciente como **Alive** com probabilidade de 81% de sobrevida. O perfil clínico é favorável: tumor em estágio inicial (T1), ausência de comprometimento linfonodal (N0) e positividade para receptores hormonais, o que sugere boa resposta a terapias-alvo como a hormonoterapia. O recall da classe Dead do modelo é 0.585, o que significa que aproximadamente 41% dos casos de óbito não são detectados — portanto, mesmo classificações 'Alive' devem ser acompanhadas com vigilância.
+>
+> ⚠️ Este resultado é exclusivamente uma ferramenta de **apoio à decisão**. Não substitui avaliação clínica."
+
+**Avaliação:**
+
+| Critério | Nota | Observação |
+|----------|------|-----------|
+| Relevância clínica | ✅ Alta | Destacou T Stage, linfonodos e receptores com interpretação correta |
+| Coerência | ✅ Alta | Alinhado com predição favorável |
+| Linguagem acessível | ✅ Boa | Mencionou limitações do modelo de forma compreensível |
+| Aviso de apoio | ✅ Presente | Aviso explícito ao final |
+
+---
+
+#### Conclusão da avaliação
+
+Os laudos gerados pelo qwen3:8b demonstram **boa qualidade qualitativa** para o contexto de apoio à decisão clínica:
+- Identificam corretamente os fatores de risco mais relevantes (estadiamento, linfonodos, receptores hormonais)
+- São coerentes com as probabilidades e predições do modelo
+- Incluem as limitações do modelo (recall, viés do dataset)
+- Mantêm o aviso de apoio à decisão em todos os casos
+
+**Limitação:** a avaliação não contou com revisão por especialistas clínicos. Uma validação formal com oncologistas seria necessária antes de qualquer uso em ambiente hospitalar real.
+
+### 7.5 Modo Mock para Testes
 
 O parâmetro `LLM_MOCK=true` ativa respostas fixas no `client.py`, permitindo:
 - Execução de todos os 34 testes sem Ollama instalado
