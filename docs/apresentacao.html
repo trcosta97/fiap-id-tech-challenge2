@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tech Challenge Fase 2 – FIAP PosTech</title>
+<style>
+  :root {
+    --azul:    #1565C0;
+    --azul2:   #1E88E5;
+    --cinza:   #263238;
+    --verde:   #2E7D32;
+    --laranja: #E65100;
+    --branco:  #FFFFFF;
+    --fundo:   #ECEFF1;
+    --card:    #FFFFFF;
+    --texto:   #212121;
+    --sub:     #546E7A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+  }
+
+  /* ── NAVEGAÇÃO ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--cinza);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.4);
+  }
+  nav .logo { color: #90CAF9; font-size: .85rem; font-weight: 600; letter-spacing: .5px; }
+  nav .controles { display: flex; gap: 10px; align-items: center; }
+  nav button {
+    background: var(--azul2); color: #fff; border: none;
+    padding: 6px 18px; border-radius: 20px; cursor: pointer;
+    font-size: .85rem; font-weight: 600; transition: background .2s;
+  }
+  nav button:hover { background: #1565C0; }
+  nav button:disabled { background: #455A64; cursor: default; }
+  #contadorSlide { color: #B0BEC5; font-size: .85rem; min-width: 55px; text-align: center; }
+
+  /* ── SLIDES ── */
+  .slides-wrapper {
+    margin-top: 52px;
+    width: 100%; height: calc(100vh - 52px);
+    overflow: hidden; position: relative;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 48px 60px;
+    animation: fadeIn .35s ease;
+  }
+  .slide.ativo { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ── FUNDOS POR TIPO ── */
+  .slide-capa    { background: linear-gradient(135deg, #0D47A1 0%, #1565C0 40%, #1976D2 100%); color: #fff; }
+  .slide-secao   { background: linear-gradient(135deg, #263238 0%, #37474F 100%); color: #fff; }
+  .slide-normal  { background: var(--fundo); }
+  .slide-destaque{ background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%); color: #fff; }
+
+  /* ── TIPOGRAFIA ── */
+  h1 { font-size: 2.6rem; line-height: 1.15; font-weight: 800; }
+  h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 28px; }
+  h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; color: var(--azul); }
+  .slide-secao h2, .slide-destaque h2 { color: #fff; }
+  .slide-secao h3, .slide-destaque h3 { color: #90CAF9; }
+  p, li { font-size: 1.05rem; line-height: 1.65; }
+  .sub { font-size: 1.15rem; opacity: .85; margin-top: 14px; }
+  .badge {
+    display: inline-block; background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 4px 14px; border-radius: 20px;
+    font-size: .85rem; margin: 4px 4px 0 0;
+  }
+
+  /* ── GRID / LAYOUT ── */
+  .cols { display: flex; gap: 28px; width: 100%; }
+  .col  { flex: 1; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    margin-bottom: 16px;
+  }
+  .card-destaque {
+    background: #E3F2FD;
+    border-left: 5px solid var(--azul2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .card-verde {
+    background: #E8F5E9;
+    border-left: 5px solid var(--verde);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .card-laranja {
+    background: #FFF3E0;
+    border-left: 5px solid var(--laranja);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+
+  /* ── TABELAS ── */
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th {
+    background: var(--azul); color: #fff;
+    padding: 10px 12px; text-align: left;
+  }
+  td { padding: 9px 12px; border-bottom: 1px solid #E0E0E0; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #F5F7FA; }
+  .destaque-linha td { background: #E3F2FD !important; font-weight: 700; }
+  .melhor { color: var(--verde); font-weight: 700; }
+
+  /* ── MÉTRICAS GRANDES ── */
+  .metricas-grid { display: flex; gap: 18px; width: 100%; justify-content: center; flex-wrap: wrap; }
+  .metrica-box {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 20px 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    text-align: center; min-width: 150px;
+  }
+  .metrica-box .valor { font-size: 2.4rem; font-weight: 800; color: var(--azul); }
+  .metrica-box .rotulo { font-size: .85rem; color: var(--sub); margin-top: 4px; }
+  .metrica-box.verde .valor { color: var(--verde); }
+  .metrica-box.laranja .valor { color: var(--laranja); }
+
+  /* ── LISTA ── */
+  ul { list-style: none; }
+  ul li::before { content: "▸ "; color: var(--azul2); font-weight: 700; }
+  .slide-secao ul li::before,
+  .slide-destaque ul li::before { color: #90CAF9; }
+
+  /* ── CÓDIGO ── */
+  code {
+    background: #263238; color: #80CBC4;
+    padding: 2px 8px; border-radius: 4px;
+    font-family: 'Consolas', monospace; font-size: .92em;
+  }
+  pre {
+    background: #263238; color: #ECEFF1;
+    padding: 16px 20px; border-radius: 10px;
+    font-family: 'Consolas', monospace; font-size: .9rem;
+    line-height: 1.7; overflow-x: auto;
+  }
+  pre .kw  { color: #82AAFF; }
+  pre .str { color: #C3E88D; }
+  pre .num { color: #F78C6C; }
+  pre .cmt { color: #546E7A; }
+
+  /* ── AVISO ── */
+  .aviso {
+    background: #FFF8E1; border-left: 5px solid #F9A825;
+    border-radius: 8px; padding: 12px 16px;
+    font-size: .9rem; color: #5D4037;
+    margin-top: 16px;
+  }
+
+  /* ── DIAGRAMA AG ── */
+  .fluxo {
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap; justify-content: center;
+    margin: 20px 0;
+  }
+  .fluxo-box {
+    background: var(--azul); color: #fff;
+    padding: 12px 18px; border-radius: 10px;
+    font-size: .9rem; font-weight: 600; text-align: center;
+    min-width: 110px;
+  }
+  .fluxo-seta { font-size: 1.4rem; color: var(--azul2); }
+
+  /* ── NÚMERO DO SLIDE ── */
+  .num-slide {
+    position: absolute; bottom: 16px; right: 24px;
+    font-size: .78rem; color: #90A4AE; opacity: .7;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">FIAP PosTech – Tech Challenge Fase 2</div>
+  <div class="controles">
+    <button id="btnAnterior" onclick="mudar(-1)" disabled>◀ Anterior</button>
+    <span id="contadorSlide">1 / 12</span>
+    <button id="btnProximo" onclick="mudar(1)">Próximo ▶</button>
+  </div>
+</nav>
+
+<div class="slides-wrapper">
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 1 – CAPA
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-capa ativo">
+    <h1>Otimização de Diagnóstico Oncológico<br>via Algoritmo Genético + LLM</h1>
+    <p class="sub">Tech Challenge – Fase 2 &nbsp;|&nbsp; FIAP PosTech – IA para Devs</p>
+    <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
+      <span class="badge">🧬 Algoritmo Genético</span>
+      <span class="badge">🤖 Ollama qwen3:8b</span>
+      <span class="badge">🏥 Breast Cancer Dataset</span>
+      <span class="badge">🐍 Python 3.12</span>
+      <span class="badge">scikit-learn · XGBoost · Loguru</span>
+    </div>
+    <p style="margin-top:40px; opacity:.7; font-size:.9rem;">Thiago Costa &nbsp;|&nbsp; Setembro/Outubro 2026</p>
+    <span class="num-slide">1 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 2 – CONTEXTO E PROBLEMA
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Contexto e Problema</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="card">
+          <h3>🏥 Cenário</h3>
+          <ul>
+            <li>Hospital universitário com modelos preditivos de diagnóstico oncológico</li>
+            <li>Dataset Breast Cancer: <strong>4.024 pacientes</strong>, 16 variáveis clínicas</li>
+            <li>Target: sobrevida — <strong>Alive</strong> ou <strong>Dead</strong></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>⚠️ Desafio</h3>
+          <ul>
+            <li>Dataset <strong>desbalanceado</strong>: ~85% Alive / ~15% Dead</li>
+            <li>Classe Dead é a clinicamente prioritária (não pode ser ignorada)</li>
+            <li>Hiperparâmetros padrão não são suficientes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h3>🎯 Objetivos</h3>
+          <ul>
+            <li><strong>Módulo 1:</strong> baseline com 3 classificadores clássicos</li>
+            <li><strong>Módulo 2:</strong> otimização via Algoritmo Genético</li>
+            <li><strong>LLM:</strong> laudos interpretativos em linguagem natural</li>
+            <li>Comparar métricas antes e após otimização</li>
+          </ul>
+        </div>
+        <div class="aviso">
+          ⚠️ As saídas da LLM são de <strong>apoio à decisão clínica</strong> e não substituem o profissional de saúde.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">2 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 3 – DATASET
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Dataset – Breast Cancer</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="metricas-grid" style="justify-content:flex-start; margin-bottom:20px;">
+          <div class="metrica-box"><div class="valor">4.024</div><div class="rotulo">Pacientes</div></div>
+          <div class="metrica-box"><div class="valor">16</div><div class="rotulo">Variáveis</div></div>
+          <div class="metrica-box laranja"><div class="valor">~15%</div><div class="rotulo">Classe Dead</div></div>
+        </div>
+        <div class="card">
+          <h3>Variáveis numéricas</h3>
+          <p>Age · Tumor Size · Regional Node Examined · Reginol Node Positive</p>
+        </div>
+        <div class="card">
+          <h3>Variáveis categóricas (10)</h3>
+          <p>Race · Marital Status · T Stage · N Stage · 6th Stage · differentiate · Grade · A Stage · Estrogen Status · Progesterone Status</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h3>Pré-processamento</h3>
+          <ul>
+            <li><code>StandardScaler</code> nas numéricas</li>
+            <li><code>OrdinalEncoder</code> nas categóricas</li>
+            <li>Remoção de <em>Survival Months</em> (data leakage)</li>
+            <li>Split estratificado 80% treino / 20% teste</li>
+            <li>Coluna <code>'T Stage '</code> com espaço trailing — tratada via <code>str.strip()</code></li>
+          </ul>
+        </div>
+        <div class="card-destaque">
+          <strong>Decisão de design:</strong> <code>class_weight="balanced"</code> em todos os classificadores para compensar o desbalanceamento sem precisar de oversampling.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">3 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 4 – MÓDULO 1: BASELINE
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Módulo 1 – Modelos Baseline</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Modelo</th>
+          <th>Accuracy</th>
+          <th>Recall (Dead)</th>
+          <th>F1 (Dead)</th>
+          <th>ROC-AUC</th>
+          <th>CV F1 Médio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="destaque-linha">
+          <td>✅ Regressão Logística</td>
+          <td>0.7006</td>
+          <td class="melhor">0.5935</td>
+          <td class="melhor">0.3773</td>
+          <td class="melhor">0.7185</td>
+          <td class="melhor">0.4108</td>
+        </tr>
+        <tr>
+          <td>Random Forest</td>
+          <td><strong>0.8261</strong></td>
+          <td style="color:#C62828;">0.2276</td>
+          <td>0.2857</td>
+          <td>0.6966</td>
+          <td>0.3319</td>
+        </tr>
+        <tr>
+          <td>XGBoost</td>
+          <td>0.7789</td>
+          <td>0.3821</td>
+          <td>0.3456</td>
+          <td>0.6821</td>
+          <td>0.3358</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cols" style="margin-top:22px;">
+      <div class="col">
+        <div class="card-verde">
+          <strong>Por que Regressão Logística?</strong><br>
+          Maior F1 Dead (0.3773) + maior ROC-AUC (0.7185) + maior Recall Dead (0.5935). Melhor equilíbrio para triagem oncológica.
+        </div>
+      </div>
+      <div class="col">
+        <div class="card-laranja">
+          <strong>Random Forest: armadilha da accuracy</strong><br>
+          Accuracy 82.6% é enganosa: apenas 22.7% dos óbitos são detectados — clinicamente inaceitável.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">4 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 5 – SEÇÃO: ALGORITMO GENÉTICO
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-secao">
+    <h2>Módulo 2</h2>
+    <p style="font-size:1.6rem; margin-top:10px; opacity:.9;">Algoritmo Genético para Otimização de Hiperparâmetros</p>
+    <div style="margin-top:40px; display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
+      <span class="badge">Cromossomo: 5 genes</span>
+      <span class="badge">Seleção por Torneio</span>
+      <span class="badge">Crossover Uniforme</span>
+      <span class="badge">Mutação por Substituição</span>
+      <span class="badge">Elitismo</span>
+      <span class="badge">Fitness: F1 Dead (5-fold CV)</span>
+    </div>
+    <span class="num-slide">5 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 6 – REPRESENTAÇÃO E OPERADORES
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Representação Genética e Operadores</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="card">
+          <h3>🧬 Cromossomo (5 genes)</h3>
+          <table>
+            <thead><tr><th>Gene</th><th>Espaço de busca</th></tr></thead>
+            <tbody>
+              <tr><td><code>C</code></td><td>0.001 · 0.01 · 0.1 · 0.5 · 1 · 2 · 5 · 10 · 50 · 100</td></tr>
+              <tr><td><code>penalty</code></td><td>l1 · l2</td></tr>
+              <tr><td><code>solver</code></td><td>lbfgs · saga · liblinear</td></tr>
+              <tr><td><code>max_iter</code></td><td>200 · 500 · 1000 · 2000</td></tr>
+              <tr><td><code>tol</code></td><td>1e-5 · 1e-4 · 1e-3</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:10px; font-size:.88rem; color:var(--sub);">720 combinações únicas antes das restrições de compatibilidade penalty × solver</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h3>⚙️ Loop Evolutivo</h3>
+          <div class="fluxo" style="flex-direction:column; align-items:flex-start; gap:8px;">
+            <div class="fluxo-box" style="background:#1565C0;">1. Inicializa população aleatória</div>
+            <div class="fluxo-seta" style="padding-left:20px;">↓</div>
+            <div class="fluxo-box" style="background:#1976D2;">2. Avalia fitness (5-fold CV F1 Dead)</div>
+            <div class="fluxo-seta" style="padding-left:20px;">↓</div>
+            <div class="fluxo-box" style="background:#1976D2;">3. Elitismo → preserva N melhores</div>
+            <div class="fluxo-seta" style="padding-left:20px;">↓</div>
+            <div class="fluxo-box" style="background:#1976D2;">4. Torneio → Crossover → Mutação</div>
+            <div class="fluxo-seta" style="padding-left:20px;">↓</div>
+            <div class="fluxo-box" style="background:#0D47A1;">5. Parada: 30 gerações ou sem melhora em 10</div>
+          </div>
+        </div>
+        <div class="card-destaque">
+          <strong>_fix_solver():</strong> garante compatibilidade penalty × solver após cada crossover/mutação. l1 → saga ou liblinear; l2 → qualquer solver.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">6 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 7 – OS 3 EXPERIMENTOS
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Os 3 Experimentos do AG</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Experimento</th>
+          <th>Pop</th>
+          <th>Mutação</th>
+          <th>Torneio</th>
+          <th>Convergência</th>
+          <th>Melhor configuração</th>
+          <th>CV F1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Exp 1</strong> – Baseline AG</td>
+          <td>20</td><td>0.10</td><td>3</td>
+          <td>Geração 12</td>
+          <td>C=0.1 · l1 · saga</td>
+          <td class="melhor">0.4156</td>
+        </tr>
+        <tr>
+          <td><strong>Exp 2</strong> – Alta Mutação</td>
+          <td>20</td><td><strong>0.30</strong></td><td>3</td>
+          <td>Geração 10</td>
+          <td>C=0.1 · l2 · lbfgs</td>
+          <td class="melhor">0.4160</td>
+        </tr>
+        <tr>
+          <td><strong>Exp 3</strong> – Pop Grande</td>
+          <td><strong>40</strong></td><td>0.10</td><td><strong>5</strong></td>
+          <td>Geração 10</td>
+          <td>C=0.1 · l1 · saga</td>
+          <td class="melhor">0.4156</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cols" style="margin-top:20px;">
+      <div class="col">
+        <div class="card-verde">
+          <strong>Padrão convergente:</strong> todos os experimentos convergem para <code>C=0.1</code> — regularização forte é o fator-chave neste dataset.
+        </div>
+      </div>
+      <div class="col">
+        <div class="card-destaque">
+          <strong>Reprodutibilidade:</strong> seed=42 fixado em todas as operações aleatórias. Resultados salvos em JSON + curvas de convergência em PNG.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">7 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 8 – COMPARATIVO FINAL
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Comparativo: Baseline vs. AG Otimizado</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Configuração</th>
+          <th>F1 (Dead)</th>
+          <th>ROC-AUC</th>
+          <th>Recall (Dead)</th>
+          <th>CV F1 Médio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Baseline LR (padrão)</td>
+          <td><strong>0.3773</strong></td>
+          <td>0.7185</td>
+          <td><strong>0.5935</strong></td>
+          <td>0.4108</td>
+        </tr>
+        <tr class="destaque-linha">
+          <td>✅ Exp1 (base AG)</td>
+          <td>0.3711</td>
+          <td class="melhor">0.7204 ↑</td>
+          <td>0.5854</td>
+          <td class="melhor">0.4156 ↑</td>
+        </tr>
+        <tr class="destaque-linha">
+          <td>✅ Exp2 (alta mutação)</td>
+          <td>0.3673</td>
+          <td class="melhor">0.7199 ↑</td>
+          <td>0.5854</td>
+          <td class="melhor">0.4160 ↑</td>
+        </tr>
+        <tr class="destaque-linha">
+          <td>✅ Exp3 (pop grande)</td>
+          <td>0.3711</td>
+          <td class="melhor">0.7204 ↑</td>
+          <td>0.5854</td>
+          <td class="melhor">0.4156 ↑</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cols" style="margin-top:20px;">
+      <div class="col">
+        <div class="card-verde">
+          <strong>Ganhos do AG:</strong> ROC-AUC sobe de 0.7185 → 0.7204 (+0.26 pp). CV F1 sobe de 0.4108 → 0.4156–0.4160 (+1.2 pp). Melhor generalização em validação cruzada.
+        </div>
+      </div>
+      <div class="col">
+        <div class="card-laranja">
+          <strong>Observação:</strong> F1 Dead no teste ficou ligeiramente abaixo do baseline. O AG otimiza para CV (generalização), não para o conjunto de teste.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">8 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 9 – SEÇÃO LLM
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-secao">
+    <h2>Integração com LLM</h2>
+    <p style="font-size:1.5rem; margin-top:10px; opacity:.9;">Laudos interpretativos em linguagem natural via Ollama qwen3:8b</p>
+    <div style="margin-top:40px; display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
+      <span class="badge">🔒 Execução 100% local</span>
+      <span class="badge">📝 Prompt versionado em arquivo .txt</span>
+      <span class="badge">🧪 Modo mock para testes</span>
+      <span class="badge">Role prompting estruturado</span>
+    </div>
+    <span class="num-slide">9 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 10 – LLM: PROMPT E EXEMPLO
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>LLM – Prompt Engineering e Exemplo de Laudo</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="card">
+          <h3>📐 Estrutura do Prompt</h3>
+          <ul>
+            <li><strong>Role:</strong> assistente de apoio clínico hospitalar</li>
+            <li><strong>Contexto:</strong> dados do paciente + predição + probabilidades</li>
+            <li><strong>Tarefa estruturada</strong> em 5 seções obrigatórias:<br>
+              1. Resultado · 2. Fatores · 3. Interpretação<br>
+              4. Limitações · 5. Recomendação</li>
+            <li><strong>Métricas do modelo</strong> injetadas: F1=0.3711, ROC-AUC=0.7204, Recall=0.5854</li>
+            <li>Variáveis: <code>${dados_paciente}</code> · <code>${predicao}</code> · <code>${probabilidade_dead}</code></li>
+          </ul>
+        </div>
+        <div class="card-destaque">
+          <strong>Decisão:</strong> Ollama local (qwen3:8b) — dados clínicos não saem do ambiente, em conformidade com LGPD.
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h3>📋 Trecho de Laudo Gerado</h3>
+          <p style="font-size:.88rem; font-style:italic; color:#37474F; line-height:1.7;">
+            "O modelo classificou o paciente como <strong>Dead</strong> com probabilidade de 78%. Os principais fatores são: estadiamento T3, 12/18 linfonodos positivos e ausência de receptores hormonais. O ROC-AUC do modelo é 0.7204. Recomenda-se avaliação multidisciplinar urgente.<br><br>
+            ⚠️ Este resultado é exclusivamente uma ferramenta de <strong>apoio à decisão</strong>. A conduta terapêutica deve ser determinada por profissional de saúde habilitado."
+          </p>
+        </div>
+        <div class="aviso">
+          ⚠️ As respostas da LLM <strong>não constituem diagnóstico médico</strong> e não substituem avaliação clínica.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">10 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 11 – ARQUITETURA E QUALIDADE
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-normal">
+    <h2>Arquitetura, Testes e Qualidade</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="card">
+          <h3>🏗️ Estrutura do Projeto</h3>
+          <pre><code>src/
+  ga/        ← AG (cromossomo, operadores,
+               fitness, engine)
+  models/    ← dataset, baseline (LR/RF/XGB)
+  llm/       ← cliente Ollama + prompts
+  monitoring/← logging estruturado (Loguru)
+experiments/ ← JSONs + PNGs dos 3 experimentos
+tests/       ← 50+ testes automatizados
+notebooks/   ← demo end-to-end
+docs/        ← arquitetura, decisões, relatório</code></pre>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h3>✅ Cobertura de Testes</h3>
+          <ul>
+            <li><strong>test_chromosome:</strong> espaço de busca, compatibilidade</li>
+            <li><strong>test_operators:</strong> torneio, crossover, mutação, elitismo</li>
+            <li><strong>test_fitness:</strong> avaliação de população</li>
+            <li><strong>test_llm_client:</strong> mock, prompt, erros</li>
+            <li><strong>test_dataset:</strong> load_raw, preprocessor, prepare_data</li>
+            <li><strong>test_train:</strong> pipelines, métricas, serialização</li>
+          </ul>
+        </div>
+        <div class="card-verde">
+          <strong>Reprodutibilidade:</strong> seed=42 em todo lugar · configs em JSON · LLM mockável · sem valores mágicos no código.
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">11 / 12</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 12 – CONCLUSÃO
+  ════════════════════════════════════════════ -->
+  <section class="slide slide-destaque">
+    <h2>Conclusões</h2>
+    <div class="cols">
+      <div class="col">
+        <ul style="margin-bottom:20px;">
+          <li>O AG converge consistentemente para <strong>C=0.1</strong> — regularização forte é fundamental para este dataset</li>
+          <li><strong>ROC-AUC melhora</strong>: 0.7185 → 0.7204 com o AG</li>
+          <li><strong>CV F1 melhora</strong>: 0.4108 → 0.4160 — melhor generalização</li>
+          <li>Diferentes configurações do AG chegam a hiperparâmetros equivalentes → solução <strong>robusta</strong></li>
+          <li><strong>LLM local</strong> gera laudos coerentes sem expor dados clínicos</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="card" style="background:rgba(255,255,255,.12); border:none;">
+          <h3>🔮 Próximos passos</h3>
+          <ul>
+            <li>Avaliação formal dos laudos por oncologistas</li>
+            <li>Otimização multi-objetivo (F1 + redução de falsos positivos)</li>
+            <li>SHAP values para explicabilidade complementar</li>
+            <li>Expandir o AG para outros modelos além da LR</li>
+          </ul>
+        </div>
+        <div style="margin-top:20px; text-align:center;">
+          <p style="font-size:.9rem; opacity:.8;">🔗 github.com/trcosta97/fiap-id-tech-challenge2</p>
+        </div>
+      </div>
+    </div>
+    <span class="num-slide">12 / 12</span>
+  </section>
+
+</div><!-- fim slides-wrapper -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let atual = 0;
+
+  function mudar(dir) {
+    slides[atual].classList.remove('ativo');
+    atual = Math.max(0, Math.min(total - 1, atual + dir));
+    slides[atual].classList.add('ativo');
+    document.getElementById('contadorSlide').textContent = (atual + 1) + ' / ' + total;
+    document.getElementById('btnAnterior').disabled = (atual === 0);
+    document.getElementById('btnProximo').disabled  = (atual === total - 1);
+  }
+
+  // Navegação por teclado
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') mudar(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   mudar(-1);
+  });
+</script>
+</body>
+</html>
