@@ -208,7 +208,7 @@ pytest tests/ --cov=src --cov-report=term-missing
 
 | Nome | RM |
 |------|----|
-| Thiago Costa | (RM a preencher) |
+| Thiago Costa | RM376167 |
 
 ---
 

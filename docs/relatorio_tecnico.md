@@ -3,6 +3,7 @@
 **Instituição:** FIAP PosTech – IA para Devs (IADT)  
 **Projeto:** Projeto 1 – Otimização de Regressão Logística via Algoritmo Genético + LLM  
 **Dataset:** Breast Cancer (4024 amostras, 16 colunas)  
+**Autor:** Thiago Costa – RM376167  
 **Data:** Setembro de 2026
 
 ---
