@@ -4,6 +4,8 @@
 
 **Projeto 1 – Otimização de Regressão Logística via Algoritmo Genético + LLM**
 
+**Vídeo Apresentação** : https://youtu.be/5bPMdqz4LsY
+
 Este repositório implementa a solução do **Tech Challenge da Fase 2** do curso PosTech – IA para Devs (IADT) da FIAP.
 
 O cenário é um **hospital universitário** que busca otimizar modelos preditivos de diagnóstico oncológico combinando:
